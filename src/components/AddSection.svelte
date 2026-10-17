@@ -34,7 +34,8 @@
                     id: 1,
                     name: "New Item",
                     value: "",
-                    qty: "1"
+                    qty: "1",
+                    desc: ""
                 }
             ]
         }]

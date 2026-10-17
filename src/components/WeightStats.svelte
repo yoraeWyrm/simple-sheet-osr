@@ -13,7 +13,7 @@
     $: newStatId = section.stats.length > 0 ? Math.max(...section.stats.map(t => t.id)) + 1 : 1;
 
     function addStat() {
-        section.stats = [...section.stats, { id: newStatId, name: "New Item", value: "", qty: "1" }];
+        section.stats = [...section.stats, { id: newStatId, name: "New Item", value: "", qty: "1", desc: "" }];
     }
     function removeStat(stat) {
         section.stats = section.stats.filter(t => t.id !== stat.id);
@@ -34,28 +34,32 @@
 <table>
     <thead>
         <tr>
-            <th>Item</th>
-            <th class="num">Qty</th>
-            <th class="num">Weight</th>
-            <th class="num">Sub</th>
-            {#if editable}<th></th>{/if}
+            <th class="c-item">Item</th>
+            <th class="c-qty num">Qty</th>
+            <th class="c-w num">Weight</th>
+            <th class="c-sub num">Sub</th>
+            <th class="c-desc">Description</th>
+            {#if editable}<th class="c-x"></th>{/if}
         </tr>
     </thead>
     <tbody>
         {#each section.stats as stat (stat.id)}
         <tr>
             {#if editable}
-            <td contenteditable="true" bind:innerText={stat.name}></td>
+            <td class="item" contenteditable="true" bind:innerText={stat.name}></td>
             <td class="num"><input inputmode="decimal" aria-label="Quantity" bind:value={stat.qty} /></td>
             <td class="num"><input inputmode="decimal" aria-label="Weight of each" bind:value={stat.value} /></td>
             {:else}
-            <td>{stat.name}</td>
+            <td class="item">{stat.name}</td>
             <td class="num">{stat.qty ?? "1"}</td>
             <td class="num">{stat.value}</td>
             {/if}
             <td class="num sub">{subtotal(stat)}</td>
             {#if editable}
+            <td class="desc" contenteditable="true" bind:innerText={stat.desc}></td>
             <td class="x"><button class="rm" aria-label="Remove item" on:click={() => removeStat(stat)}>&times;</button></td>
+            {:else}
+            <td class="desc">{stat.desc ?? ""}</td>
             {/if}
         </tr>
         {/each}
@@ -63,7 +67,8 @@
     <tfoot>
         <tr>
             <th colspan="3">Total weight</th>
-            <td class="num total" colspan={editable ? 2 : 1}>{fmt(status.total)}{unitText}</td>
+            <td class="num total">{fmt(status.total)}{unitText}</td>
+            <td colspan={editable ? 2 : 1}></td>
         </tr>
     </tfoot>
 </table>
@@ -98,10 +103,11 @@
     th.num {
         text-align: right;
     }
-    th:nth-child(2) { width: 3rem; }
-    th:nth-child(3) { width: 4rem; }
-    th:nth-child(4) { width: 4.5rem; }
-    th:nth-child(5) { width: 1rem; }
+    th.c-item { width: 30%; }
+    th.c-qty { width: 3.5rem; }
+    th.c-w { width: 4.5rem; }
+    th.c-sub { width: 5rem; }
+    th.c-x { width: 1.5rem; }
     tbody tr:nth-last-child(2n+1) {
         background: rgba(var(--accent), 0.05);
     }
@@ -120,6 +126,13 @@
         }
         &.x {
             padding: 0;
+        }
+        &.item, &.desc {
+            overflow-wrap: anywhere;
+        }
+        &.desc {
+            color: rgba(var(--primary), 0.7);
+            font-size: 0.9rem;
         }
         &:hover {
             color: rgba(var(--primary), 1);

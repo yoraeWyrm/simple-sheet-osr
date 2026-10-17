@@ -16,7 +16,7 @@
 
 </script>
 
-<div>
+<div class:wide={section.kind === "weight"}>
     {#if editable && $editing}
 
     <h2 bind:innerText={section.name} contenteditable="true">{section.name}</h2>
@@ -41,6 +41,9 @@
         border-image: 
         linear-gradient(to bottom, rgba(0, 0, 0, 0), rgb(var(--accent)), rgba(0, 0, 0, 0)) 1 100%;
         border-right: none;
+    }
+    .wide {
+        grid-column: 1 / -1;
     }
     h2 {
         text-shadow: var(--shadow);
