@@ -1,0 +1,15 @@
+{
+    "name": "DummySheet OSR",
+    "version": "1.1.0",
+    "manifest_version": 1,
+    "icon": "/icon.svg",
+    "author": "Based on DummySheet by kurara ara",
+    "description": "DummySheet with a character portrait and a weight-tracking section.",
+    "action": {
+      "title": "DummySheet OSR",
+      "icon": "/icon.svg",
+      "popover": "/",
+      "height": 1200,
+      "width": 700
+    }
+}
