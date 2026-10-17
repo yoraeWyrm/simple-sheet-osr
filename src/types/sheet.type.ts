@@ -23,4 +23,5 @@ export type DummySheetStats = {
     value: string;
     // Só em seções de peso.
     qty?: string;
+    desc?: string;
 }
